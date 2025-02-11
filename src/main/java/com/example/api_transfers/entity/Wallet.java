@@ -11,7 +11,7 @@ public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wallet_id")
-    private long id;
+    private Long id;
 
     @Column(name = "full_name")
     private String fullName;
@@ -35,11 +35,19 @@ public class Wallet {
     public Wallet() {
     }
 
-    public long getId() {
+    public Wallet(String fullName, String cpfCnpj, String email, String password, WalletType walletType) {
+        this.fullName = fullName;
+        this.cpfCnpj = cpfCnpj;
+        this.email = email;
+        this.password = password;
+        this.walletType = walletType;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

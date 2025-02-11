@@ -2,8 +2,10 @@ package com.example.api_transfers.config;
 
 import com.example.api_transfers.entity.WalletType;
 import com.example.api_transfers.repository.WalletTypeRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+
 import java.util.Arrays;
 
 @Configuration
@@ -15,14 +17,10 @@ public class DataLoader implements CommandLineRunner {
         this.walletTypeRepository = walletTypeRepository;
     }
 
+    @Transactional
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
         Arrays.stream(WalletType.Enum.values())
-                .map(WalletType.Enum::get)
-                .forEach(walletType ->
-                        walletTypeRepository.findByDescription(walletType.getDescription())
-                                .orElseGet(() -> walletTypeRepository.save(walletType))
-                );
+                .forEach(walletType -> walletTypeRepository.save(walletType.get()));
     }
-
 }
