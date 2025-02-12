@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Configuration
 public class DataLoader implements CommandLineRunner {
@@ -20,7 +21,12 @@ public class DataLoader implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-        Arrays.stream(WalletType.Enum.values())
-                .forEach(walletType -> walletTypeRepository.save(walletType.get()));
+        // Usar saveAll para evitar múltiplas interações com o banco:
+        walletTypeRepository.saveAll(
+                Arrays.stream(WalletType.Enum.values())
+                        .map(WalletType.Enum::get)
+                        .filter(walletType -> !walletTypeRepository.existsById(walletType.getId()))
+                        .toList()
+        );
     }
 }

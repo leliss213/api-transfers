@@ -8,28 +8,30 @@ import java.util.Objects;
 public class WalletType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String description;
 
-    public WalletType() {
-    }
+    @Version
+    private long version;
+
     public enum Enum {
 
-        USER(123L, "user"),
-        MERCHANT(234L, "merchant");
+        USER(1L, "user"),
+        MERCHANT(2L, "merchant");
+
+        private final WalletType walletType;
 
         private long id;
         private String description;
 
         Enum(long id, String description) {
-            this.id = id;
-            this.description = description;
+            this.walletType = new WalletType(id, description);
         }
 
+
         public WalletType get() {
-            return new WalletType(id, description);
+            return walletType;
         }
     }
 
@@ -51,6 +53,8 @@ public class WalletType {
         this.description = description;
     }
 
+    public WalletType() {}
+
     public long getId() {
         return id;
     }
@@ -67,4 +71,7 @@ public class WalletType {
         this.description = description;
     }
 
+    public long getVersion() {return version;}
+
+    public void setVersion(long version) {this.version = version;}
 }
