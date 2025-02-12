@@ -19,9 +19,9 @@ public class WalletService {
     @Transactional
     public Wallet createWallet(CreateWalletDTO dto){
 
+        //busca no banco se possui uma wallet com cpf ou email do objeto recebido dto
         var walletDb = walletRepository.findByCpfCnpjOrEmail(dto.cpfCnpj(), dto.email());
-        //validar se a existe o wallettype
-        //var walletTypeRepo = dto.walletType().get()
+
         if(walletDb.isPresent()){
             throw new WalletAlreadyExistException("CPF/CNPJ or email already exist");
         }

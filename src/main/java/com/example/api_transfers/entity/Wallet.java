@@ -1,6 +1,8 @@
 package com.example.api_transfers.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
@@ -31,6 +33,22 @@ public class Wallet {
     @ManyToOne
     @JoinColumn(name = "wallet_type_id")
     private WalletType walletType;
+
+    public boolean isTransferAllowedForWalletType(){
+        return this.walletType.equals(WalletType.Enum.USER.get());
+    }
+
+    public boolean isBalanceBiggerThan(BigDecimal value) {
+        return this.balance.doubleValue() >= value.doubleValue();
+    }
+
+    public void debit(BigDecimal value) {
+        this.balance = this.balance.subtract(value);
+    }
+
+    public void credit(BigDecimal value) {
+        this.balance = this.balance.add(value);
+    }
 
     public Wallet() {
     }
@@ -98,4 +116,5 @@ public class Wallet {
     public void setWalletType(WalletType walletType) {
         this.walletType = walletType;
     }
+
 }

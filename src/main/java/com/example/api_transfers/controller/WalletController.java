@@ -4,6 +4,7 @@ import com.example.api_transfers.controller.dto.CreateWalletDTO;
 import com.example.api_transfers.entity.Wallet;
 import com.example.api_transfers.entity.WalletType;
 import com.example.api_transfers.service.WalletService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class WalletController {
     }
 
     @PostMapping("/wallets")
-    public ResponseEntity<Wallet> createWallet(@RequestBody CreateWalletDTO dto) {
+    public ResponseEntity<Wallet> createWallet(@RequestBody @Valid CreateWalletDTO dto) {
 
         log.info("Objeto recebido: {}", dto);
 
